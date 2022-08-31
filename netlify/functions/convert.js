@@ -1,12 +1,55 @@
+import NotionPageToHtml from "notion-page-to-html"
+
 exports.handler = async function (event, context) {
-	return {
-		statusCode: 200,
-		body: JSON.stringify({ message: "Hello World" }),
+	const authToken = process.env.TOKEN;
+	const { url, token } = event.queryStringParameters;
+
+	if (!token) {
+		return {
+			statusCode: 500,
+			body: JSON.stringify({ error: 'Missing auth token.' }),
+		}
 	}
+
+	if (token !== authToken) {
+		return {
+			statusCode: 500,
+			body: JSON.stringify({ error: 'Invalid auth token.' }),
+		}		
+	}
+
+	if (!url) {
+		return {
+			statusCode: 500,
+			body: JSON.stringify({ error: 'Missing url to convert.' }),
+		}
+	}
+
+	try {
+		// const { title, icon, cover, html } = await NotionPageToHtml.convert("https://www.notion.so/asnunes/Simple-Page-Text-4d64bbc0634d4758befa85c5a3a6c22f");
+		const { html } = await NotionPageToHtml.convert(url, {
+			bodyContentOnly: true,
+			excludeHeaderFromBody: true,
+			excludeScripts: true,
+			excludeMetadata: true,
+			excludeCSS: true
+		});
+
+
+
+		return {
+			statusCode: 200,
+			body: JSON.stringify({content: html}),
+		}
+	} catch (e) {
+		return {
+			statusCode: 500,
+			body: JSON.stringify({ error: error }),
+		}		
+	}
+
 };
 
-
-//import NotionPageToHtml from "notion-page-to-html"
 
 // export default {
 // 	async fetch(request) {
