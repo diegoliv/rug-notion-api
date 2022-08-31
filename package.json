@@ -1,12 +1,9 @@
 {
   "name": "rug-notion-api",
   "version": "0.0.0",
-  "devDependencies": {
-    "wrangler": "2.0.28"
-  },
   "private": true,
-  "scripts": {
-    "start": "wrangler dev",
-    "deploy": "wrangler publish"
+  "scripts": {},
+  "dependencies": {
+    "notion-page-to-html": "^1.2.0"
   }
 }
