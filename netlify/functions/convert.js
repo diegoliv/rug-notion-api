@@ -7,6 +7,7 @@ exports.handler = async function (event, context) {
 	if (!token) {
 		return {
 			statusCode: 500,
+			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ error: 'Missing auth token.' }),
 		}
 	}
@@ -14,6 +15,7 @@ exports.handler = async function (event, context) {
 	if (token !== authToken) {
 		return {
 			statusCode: 500,
+			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ error: 'Invalid auth token.' }),
 		}		
 	}
@@ -21,6 +23,7 @@ exports.handler = async function (event, context) {
 	if (!url) {
 		return {
 			statusCode: 500,
+			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ error: 'Missing url to convert.' }),
 		}
 	}
@@ -39,11 +42,13 @@ exports.handler = async function (event, context) {
 
 		return {
 			statusCode: 200,
+			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({content: html}),
 		}
 	} catch (e) {
 		return {
 			statusCode: 500,
+			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ error: error }),
 		}		
 	}
